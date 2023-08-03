@@ -1,40 +1,32 @@
 # AICoverGen
-An autonomous pipeline to create covers with any RVC v2 trained AI voice from YouTube videos. For developers who may want to add a singing functionality into their AI assistant/chatbot/vtuber, or for people who want to hear their favourite characters sing their favourite song.
-
-Showcase: https://www.youtube.com/watch?v=2qZuE4WM7CM
-
-Setup Guide: https://www.youtube.com/watch?v=pdlhk4vVHQk
+An autonomous pipeline to create covers with any RVC v2 trained AI voice from YouTube videos. For developers who may want to add a singing functionality into their AI assistant/chatbot/vtuber, or for people who want to hear their favourite characters sing their favourite song. (ONLY AMD and LINUX)
 
 ![](images/webui_generate.png?raw=true)
 
-WebUI is under constant development and testing, but you can try it out right now on both local and colab!
-
-## Colab notebook
-
-For those without a powerful enough NVIDIA GPU, you may try AICoverGen out using Google Colab.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/SociallyIneptWeeb/AICoverGen/blob/main/AICoverGen_colab.ipynb)
-
-For those who want to run this locally, follow the setup guide below.
+This setup guide is tested for Linux Mint 21.1
 
 ## Setup
 
-### Install Git and Python
+### Install Python
 
-Follow the instructions [here](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) to install Git on your computer. Also follow this [guide](https://realpython.com/installing-python/) to install Python **VERSION 3.9** if you haven't already. Using other versions of Python may result in dependency conflicts.
+Python **VERSION 3.10** if you haven't already. Using other versions of Python may result in dependency conflicts.
 
 ### Install ffmpeg
 
 Follow the instructions [here](https://www.hostinger.com/tutorials/how-to-install-ffmpeg) to install ffmpeg on your computer.
 
-### Clone AICoverGen repository
+### Install ROCm
+
+Open the file ROCm_Setup and follow the instructions.
+
+### Download this repository
 
 Open a command line window and run these commands to clone this entire repository and install the additional dependencies required.
 
 ```
-git clone https://github.com/SociallyIneptWeeb/AICoverGen
 cd AICoverGen
 pip install -r requirements.txt
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/rocm5.4.2
 ```
 
 ### Download required models
