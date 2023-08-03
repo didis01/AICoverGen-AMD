@@ -1,0 +1,87 @@
+*This guide works with Linux Mint*
+sudo apt-get update
+
+Download the .deb package
+https://www.amd.com/es/support/linux-drivers
+sudo apt install ./package_name.deb
+
+sudo amdgpu-install -y --opencl=rocr,legacy --vulkan=amdvlk --accept-eula
+
+sudo reboot
+
+
+
+sudo mkdir --parents --mode=0755 /etc/apt/keyrings
+
+wget https://repo.radeon.com/rocm/rocm.gpg.key -O - | \
+    gpg --dearmor | sudo tee /etc/apt/keyrings/rocm.gpg > /dev/null
+
+sudo tee /etc/apt/sources.list.d/amdgpu.list <<'EOF'
+deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/amdgpu/latest/ubuntu focal main
+EOF
+
+sudo tee /etc/apt/sources.list.d/rocm.list <<'EOF'
+deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/debian focal main
+EOF
+
+sudo apt-get update
+
+sudo apt install amdgpu-dkms
+
+sudo apt install rocm-hip-libraries
+
+sudo reboot
+
+
+
+sudo apt install "linux-headers-$(uname -r)" "linux-modules-extra-$(uname -r)"
+
+sudo usermod -a -G render,video $LOGNAME
+
+echo 'ADD_EXTRA_GROUPS=1' | sudo tee -a /etc/adduser.conf
+echo 'EXTRA_GROUPS=video' | sudo tee -a /etc/adduser.conf
+echo 'EXTRA_GROUPS=render' | sudo tee -a /etc/adduser.conf
+
+for ver in 5.3.3 5.4.3 5.5.1 5.6; do
+echo "deb [arch=amd64 signed-by=/etc/apt/keyrings/rocm.gpg] https://repo.radeon.com/rocm/apt/$ver focal main" \
+    | sudo tee --append /etc/apt/sources.list.d/rocm.list
+done
+
+echo -e 'Package: *\nPin: release o=repo.radeon.com\nPin-Priority: 600' \
+    | sudo tee /etc/apt/preferences.d/rocm-pin-600
+
+sudo apt update
+
+sudo apt install rocm-hip-sdk
+
+sudo tee --append /etc/ld.so.conf.d/rocm.conf <<EOF
+/opt/rocm/lib
+/opt/rocm/lib64
+EOF
+
+sudo ldconfig
+
+export PATH=$PATH:/opt/rocm/bin:/opt/rocm-5.6/opencl/bin
+
+sudo reboot
+
+
+
+(Verify)
+
+dkms status
+
+
+
+
+/opt/rocm/bin/rocminfo
+(OR)
+/opt/rocm/opencl/bin/clinfo
+
+
+*PUT THIS ENV FRAG BEFORE TO WORK CORRECTLY*
+HSA_OVERRIDE_GFX_VERSION=10.3.0
+
+(Example)
+
+$ HSA_OVERRIDE_GFX_VERSION=10.3.0 whisper --help
