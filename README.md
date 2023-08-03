@@ -34,7 +34,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 Run the following command to download the required MDXNET vocal separation models and hubert base model.
 
 ```
-python src/download_models.py
+HSA_OVERRIDE_GFX_VERSION=10.3.0 python src/download_models.py
 ```
 
 
@@ -43,7 +43,7 @@ python src/download_models.py
 To run the AICoverGen WebUI, run the following command.
 
 ```
-python src/webui.py
+HSA_OVERRIDE_GFX_VERSION=10.3.0 python src/webui.py
 ```
 
 Once the following output message `Running on local URL:  http://127.0.0.1:7860` appears, you can click on the link to open a tab with the WebUI.
@@ -96,7 +96,7 @@ The directory structure should look something like this:
 To run the AI cover generation pipeline using the command line, run the following command.
 
 ```
-python src/main.py -yt YOUTUBE_LINK -dir MODEL_DIR_NAME -p PITCH_CHANGE
+HSA_OVERRIDE_GFX_VERSION=10.3.0 python src/main.py -yt YOUTUBE_LINK -dir MODEL_DIR_NAME -p PITCH_CHANGE
 ```
 
 - Replace YOUTUBE_LINK with any link to a song on YouTube. Link should be enclosed in double quotes for Windows and single quotes for Unix-like systems
